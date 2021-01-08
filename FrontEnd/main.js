@@ -1,5 +1,5 @@
+let site = "https://edib9h6jg3.execute-api.eu-west-2.amazonaws.com/default/";
 function validate() {
-  let site = "https://d3eevte86p6kmv.cloudfront.net/";
   var longUrl, text, data;
   longUrl = document.getElementById("inputUrl").value;
   if(validateUrl(longUrl))
@@ -10,7 +10,8 @@ function validate() {
   foo(longUrl, function parseResult(txt){
   	data = JSON.parse(txt);
   	console.log(data.shortUrl);
-  	text = "Your short url: <a href=" + longUrl + ">" + site + data.shortUrl + "</a>";
+	var newUrl = site + data.shortUrl;
+  	text = "Your short url: <a href=" + newUrl + ">" + newUrl + "</a>";
 	resultElement.classList.toggle('spinner');
   	document.getElementById("result").innerHTML = text;
   });
@@ -38,7 +39,7 @@ function foo(longUrl, callback) {
             }
         }
     };
-    xhr.open("POST", "https://edib9h6jg3.execute-api.eu-west-2.amazonaws.com/default", true);
+    xhr.open("POST", site, true);
     xhr.setRequestHeader('Content-Type', 'application/json');
     	xhr.send(JSON.stringify({
 		url:longUrl
