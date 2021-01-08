@@ -13,7 +13,6 @@ import com.amazonaws.services.dynamodbv2.document.utils.ValueMap;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.harrySeld0n.aws.dto.UrlDto;
-import com.harrySeld0n.aws.dto.UrlResponse;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -22,17 +21,18 @@ import java.util.Objects;
 
 public class LambdaApplication implements RequestHandler<UrlDto, String>
 {
-	DynamoDB dynamoDb;
-	private String DYNAMODB_TABLE_NAME = "urls";
-	private Regions REGION = Regions.EU_WEST_2;
+	private DynamoDB dynamoDb;
+	private static final String DYNAMODB_TABLE_NAME = "urls";
+	private static final Regions REGION = Regions.EU_WEST_2;
 
 	@Override
 	public String handleRequest(UrlDto dto, Context context)
 	{
-		return queryUrl(dto.getShortUrl()).getUrl();
+		context.getLogger().log("ShortUrl: " + dto.getShortUrl());
+		return queryUrl(dto.getShortUrl());
 	}
 
-	private UrlResponse queryUrl(final String shortUrl)
+	private String queryUrl(final String shortUrl)
 	{
 		initDynamoDbClient();
 		Table table = dynamoDb.getTable(DYNAMODB_TABLE_NAME);
@@ -52,16 +52,9 @@ public class LambdaApplication implements RequestHandler<UrlDto, String>
 		}
 		if (Objects.nonNull(item))
 		{
-			return buildDto(item);
+			throw new RedirectException(item.getString("longUrl"));
 		}
 		throw new NoSuchElementException("item does not exist!");
-	}
-
-	private UrlResponse buildDto(Item item)
-	{
-		UrlResponse urlDto = new UrlResponse();
-		urlDto.setUrl(item.getString("longUrl"));
-		return urlDto;
 	}
 
 	private void initDynamoDbClient()
