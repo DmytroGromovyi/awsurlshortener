@@ -1,0 +1,43 @@
+footer {
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	text-align: center;
+	font-size:15px;
+}
+body {
+    padding-top:15%;
+}
+.inputBox{
+	padding-top: 10px;
+	text-align: center;
+}
+.inputBtn{
+	padding-top: 10px;
+	text-align: center;
+}
+.title {
+	font-family: "Lucida Console", "Monospace";
+	font-size: 25px;
+	width: 100%;
+	text-align: center;
+	padding-top: 20px;
+}
+.alignment{
+	width: 100%;
+	text-align: center;
+	padding-top: 60px;
+}
+.txt {
+	font-size: 25px;
+}
+.font-txt {
+	font-family: "Lucida Console", "Monospace";
+}
+.bottom {
+	font-size: 10px;
+	width: 100%;
+	text-align: center;
+	padding-top: 10px;
+}
